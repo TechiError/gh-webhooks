@@ -56,5 +56,5 @@ async def respond(request: Request):
 
 if __name__ == "__main__":
     PORT = config("PORT")
-    threading.Thread((uvicorn.run("main:app", host="0.0.0.0", port=int(PORT), log_level="info")), daemon=True).start()
+    uvicorn.run("main:app", host="0.0.0.0", port=int(PORT), log_level="info")
     #subprocess.run("cd tg && python3 client.py", shell=True, check=True)
