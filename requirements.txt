@@ -1,5 +1,5 @@
 python-decouple
-telethon
+requests
 fastapi
 uvicorn
 pyrogram
