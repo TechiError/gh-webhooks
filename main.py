@@ -21,7 +21,6 @@ logging.basicConfig(
 APP_ID = config("APP_ID", default=None, cast=int)
 API_HASH = config("API_HASH", default=None)
 BOT_TOKEN = config("BOT_TOKEN", default=None)
-os.system("cd tg && python3 client.py")
 #tgbot = TelegramClient("kensur", api_id=APP_ID, api_hash=API_HASH).start(bot_token=BOT_TOKEN)
 
 #app = Flask("Kek")
@@ -55,4 +54,5 @@ async def respond(request: Request):
 
 PORT = config("PORT")
 if __name__ == "__main__" :
+    os.system("cd tg && python3 client.py")
     uvicorn.run("app", host="0.0.0.0", port=int(PORT), log_level="info")
