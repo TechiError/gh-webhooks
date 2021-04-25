@@ -55,6 +55,7 @@ async def respond(request: Request):
                    api_hash=API_HASH,
                    bot_token=BOT_TOKEN)"""
 
-PORT = config("PORT")
-threading.Thread((uvicorn.run("main:app", host="0.0.0.0", port=int(PORT), log_level="info")), daemon=True).start()
-#subprocess.run("cd tg && python3 client.py", shell=True, check=True)
+if __name__ == "__main__":
+    PORT = config("PORT")
+    threading.Thread((uvicorn.run("main:app", host="0.0.0.0", port=int(PORT), log_level="info")), daemon=True).start()
+    #subprocess.run("cd tg && python3 client.py", shell=True, check=True)
