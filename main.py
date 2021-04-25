@@ -1,7 +1,7 @@
 import io
 import logging
 import random
-import sys
+import sys, os
 import traceback
 import uvicorn
 from decouple import config
@@ -11,6 +11,7 @@ from decouple import config
 #)
 from telethon import TelegramClient
 from fastapi import FastAPI,Request
+from tg.client import tgbot
 #from flask import Flask, request, Response
 
 logging.basicConfig(
@@ -20,8 +21,8 @@ logging.basicConfig(
 APP_ID = config("APP_ID", default=None, cast=int)
 API_HASH = config("API_HASH", default=None)
 BOT_TOKEN = config("BOT_TOKEN", default=None)
-
-tgbot = TelegramClient("kensur", api_id=APP_ID, api_hash=API_HASH).start(bot_token=BOT_TOKEN)
+os.system("cd tg && python3 client.py")
+#tgbot = TelegramClient("kensur", api_id=APP_ID, api_hash=API_HASH).start(bot_token=BOT_TOKEN)
 
 #app = Flask("Kek")
 app = FastAPI(debug=True)
@@ -55,4 +56,3 @@ async def respond(request: Request):
 PORT = config("PORT")
 if __name__ == "__main__" :
     uvicorn.run("app", host="0.0.0.0", port=int(PORT), log_level="info")
-    tgbot.run_until_disconnected()
