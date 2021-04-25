@@ -31,8 +31,8 @@ def post_tg(chat, message, parse_mode):
     return response
 
 @app.post('/webhook')
-def respond(request: Request):
-    result = request.json()
+async def respond(request: Request):
+    result = await request.json()
 #    await tgbot.start(bot_token=BOT_TOKEN)
     #print(request.json)
     try:
