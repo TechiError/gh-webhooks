@@ -1,7 +1,8 @@
 import io
+import os
 import logging
 import random
-import sys, os
+import sys
 import traceback
 import uvicorn
 from decouple import config
@@ -55,4 +56,4 @@ async def respond(request: Request):
 PORT = config("PORT")
 if __name__ == "__main__" :
     os.system("cd tg && python3 client.py")
-    uvicorn.run("app", host="0.0.0.0", port=int(PORT), log_level="info")
+    threading.Thread((uvicorn.run("app", host="0.0.0.0", port=int(PORT), log_level="info")), daemon=True).start()
