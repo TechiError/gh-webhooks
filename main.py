@@ -13,7 +13,6 @@ from decouple import config
 #    Client,
 #    __version__
 #)
-from telethon import TelegramClient
 from fastapi import FastAPI,Request
 #from flask import Flask, request, Response
 
