@@ -7,20 +7,32 @@ import subprocess
 import traceback
 import threading
 import uvicorn
-from tg.client import tgbot
+import requests
 from decouple import config
 #from pyrogram import (
 #    Client,
 #    __version__
 #)
+BOT_TOKEN = config("TOKEN")
 from fastapi import FastAPI,Request
 #from flask import Flask, request, Response
 print("Successfully deployed!")
 app = FastAPI(debug=True)
+API = f'https://api.telegram.org/bot{BOT_TOKEN}/'
+def post_tg(chat, message, parse_mode):
+    """Send message to desired group"""
+    response = post(
+        API + "sendMessage",
+        params={
+            "chat_id": chat,
+            "text": message,
+            "parse_mode": parse_mode,
+            "disable_web_page_preview": True}).json()
+    return response
 
 @app.post('/webhook')
-async def respond(request: Request):
-    result = await request.json()
+def respond(request: Request):
+    result = request.json()
 #    await tgbot.start(bot_token=BOT_TOKEN)
     #print(request.json)
     try:
@@ -33,7 +45,7 @@ async def respond(request: Request):
         commit_timestamp = umm["timestamp"]
         committer_name = umm["author"]["username"]
         committer_mail = umm["author"]["email"]
-        await tgbot.send_message(-1001237141420, f"Commit: [`{commit_id}`]({commit_url})\nMessage: *{commit_msg}*\nTimeStamp: `{commit_timestamp}`\nCommiter: {committer_name} <{committer_mail}>")
+        post_tg(-1001237141420, f"Commit: [`{commit_id}`]({commit_url})\nMessage: *{commit_msg}*\nTimeStamp: `{commit_timestamp}`\nCommiter: {committer_name} <{committer_mail}>", markdown)
     except:
         traceback.print_exc()
     #return Response(status=200)
