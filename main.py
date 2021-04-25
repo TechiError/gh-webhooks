@@ -15,7 +15,6 @@ from decouple import config
 #)
 from telethon import TelegramClient
 from fastapi import FastAPI,Request
-from tg import tgbot
 #from flask import Flask, request, Response
 
 logging.basicConfig(
