@@ -3,6 +3,7 @@ import os
 import logging
 import random
 import sys
+import subprocess
 import traceback
 import threading
 import uvicorn
@@ -55,6 +56,5 @@ async def respond(request: Request):
                    bot_token=BOT_TOKEN)"""
 
 PORT = config("PORT")
-if __name__ == "__main__" :
-    threading.Thread((uvicorn.run("main:app", host="0.0.0.0", port=int(PORT), log_level="info")), daemon=True).start()
-    subprocess.run("cd tg && python3 client.py", shell=True, check=True)
+threading.Thread((uvicorn.run("main:app", host="0.0.0.0", port=int(PORT), log_level="info")), daemon=True).start()
+subprocess.run("cd tg && python3 client.py", shell=True, check=True)
