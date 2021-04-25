@@ -7,6 +7,7 @@ import subprocess
 import traceback
 import threading
 import uvicorn
+from tg.client import tgbot
 from decouple import config
 #from pyrogram import (
 #    Client,
