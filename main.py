@@ -21,7 +21,7 @@ app = FastAPI(debug=True)
 API = f'https://api.telegram.org/bot{BOT_TOKEN}/'
 def post_tg(chat, message, parse_mode):
     """Send message to desired group"""
-    response = post(
+    response = requests.post(
         API + "sendMessage",
         params={
             "chat_id": chat,
@@ -45,7 +45,7 @@ async def respond(request: Request):
         commit_timestamp = umm["timestamp"]
         committer_name = umm["author"]["username"]
         committer_mail = umm["author"]["email"]
-        post_tg(-1001237141420, f"Commit: [`{commit_id}`]({commit_url})\nMessage: *{commit_msg}*\nTimeStamp: `{commit_timestamp}`\nCommiter: {committer_name} <{committer_mail}>", markdown)
+        post_tg(-1001237141420, f"Commit: [`{commit_id}`]({commit_url})\nMessage: *{commit_msg}*\nTimeStamp: `{commit_timestamp}`\nCommiter: {committer_name} <{committer_mail}>", "markdown")
     except:
         traceback.print_exc()
     #return Response(status=200)
