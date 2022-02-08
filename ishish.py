@@ -158,7 +158,6 @@ async def fucku(event):
 
 
 async def respond(request):
-    print(await request.text())
     result = loads(await request.text())
     #    await tgbot.start(bot_token=BOT_TOKEN)
     # print(request.json)
