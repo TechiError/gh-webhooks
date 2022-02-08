@@ -2,6 +2,7 @@ import re
 import traceback
 from datetime import datetime
 from html import escape
+from json import loads
 
 import github
 from aiohttp import web
@@ -158,7 +159,7 @@ async def fucku(event):
 
 async def respond(request):
     print(await request.text())
-    result = await request.json()
+    result = loads(await request.text())
     #    await tgbot.start(bot_token=BOT_TOKEN)
     # print(request.json)
     d_form = "%d/%m/%y || %H:%M"
