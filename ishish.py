@@ -66,7 +66,6 @@ async def send_msg(chat, text, buttons=None, **kwargs):
                 await tgbot.send_message(
                     int(ch), txt, link_preview=link_preview, parse_mode=parse_mode
                 )
-            break
     elif isinstance(chat, str) or isinstance(chat, int):
         if buttons is not None:
             await tgbot.send_message(
@@ -220,7 +219,7 @@ async def respond(request):
                         buttons=btns,
                         link_preview=False,
                     )
-
+            return {"msg": "Success"}
         elif result.get("pull_request"):
             pr_action = result["action"]
             pr = result["pull_request"]
@@ -238,6 +237,7 @@ async def respond(request):
             else:
                 text = f"**Reopened Pull Request**\nBy: {pull_pusher}\n[{pull_t}]({pull_r})\n**Timestamp**: {str_time}\n[Commits]({pull_commits})\n\n#GithubBot"
             await send_msg(GB_grps, text, parse_mode="markdown", link_preview=False)
+            return {"msg": "Success"}
         elif result.get("action") == "started":
 
             @tgbot.on(events.CallbackQuery(pattern="stars"))
@@ -258,6 +258,7 @@ async def respond(request):
                 buttons=Button.inline("Total Stars", b"stars"),
                 link_preview=False,
             )
+            return {"msg": "Success"}
         elif result.get("forkee"):
 
             @tgbot.on(events.CallbackQuery(pattern="forks"))
@@ -278,8 +279,9 @@ async def respond(request):
                 buttons=Button.inline("Total Forks", b"forks"),
                 link_preview=False,
             )
+            return {"msg": "Success"}
         else:
-            return
+            return {"msg": "Success"}
             # IDK WHat
             # loop.run_until_complete()
     except BaseException:
