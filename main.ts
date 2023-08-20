@@ -34,7 +34,7 @@ router.post("/webhook", async (ctx) => {
     for (const chat of chats) {
       const chatinfo = await bot.api.getChat(chat);
       const [chatId, replyToMessageId] = chat.split(":");
-      if (chatinfo.is_forum) {
+      if (chatinfo.is_forum == true) {
         await bot.api.sendMessage(Number(chatId), message, {
           parse_mode: "HTML",
           reply_markup: keyboard,
@@ -51,31 +51,55 @@ router.post("/webhook", async (ctx) => {
     const message =
       `🌟 <a href="${body.sender.html_url}">${body.sender.login}</a> starred <a href="${body.repository.html_url}">${body.repository.name}</a>\n\n#GithubBot`;
     for (const chat of chats) {
-      const [chatId, replyToMessageId] = chat.split(":");
-      await bot.api.sendMessage(chatId, message, {
-        parse_mode: "HTML",
-        disable_web_page_preview: true,
-        reply_to_message_id: Number(replyToMessageId),
-        reply_markup: new InlineKeyboard().text(
-          "Total Stars",
-          `stargazers${body.repository.full_name}`,
-        ),
-      });
+      const chatinfo = await bot.api.getChat(chat);
+      if (chatinfo.is_forum == true) {
+        const [chatId, replyToMessageId] = chat.split(":");
+        await bot.api.sendMessage(chatId, message, {
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+          reply_to_message_id: Number(replyToMessageId),
+          reply_markup: new InlineKeyboard().text(
+            "Total Stars",
+            `stargazers${body.repository.full_name}`,
+          ),
+        });
+      } else {
+        await bot.api.sendMessage(chat, message, {
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+          reply_markup: new InlineKeyboard().text(
+            "Total Stars",
+            `stargazers${body.repository.full_name}`,
+          ),
+        });
+      }
     }
   } else if (body.forkee) {
     const message =
       `🍴 <a href="${body.sender.html_url}">${body.sender.login}</a> forked <a href="${body.repository.html_url}">${body.repository.name}</a>\n\n#GithubBot`;
     for (const chat of chats) {
-      const [chatId, replyToMessageId] = chat.split(":");
-      await bot.api.sendMessage(chatId, message, {
-        parse_mode: "HTML",
-        disable_web_page_preview: true,
-        reply_to_message_id: Number(replyToMessageId),
-        reply_markup: new InlineKeyboard().text(
-          "Total Forks",
-          `forks${body.repository.full_name}`,
-        ),
-      });
+      const chatinfo = await bot.api.getChat(chat);
+      if (chatinfo.is_forum == true) {
+        const [chatId, replyToMessageId] = chat.split(":");
+        await bot.api.sendMessage(chatId, message, {
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+          reply_to_message_id: Number(replyToMessageId),
+          reply_markup: new InlineKeyboard().text(
+            "Total Forks",
+            `forks${body.repository.full_name}`,
+          ),
+        });
+      } else {
+        await bot.api.sendMessage(chat, message, {
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+          reply_markup: new InlineKeyboard().text(
+            "Total Forks",
+            `forks${body.repository.full_name}`,
+          ),
+        });
+      }
     }
   }
   ctx.response.body = "OK";
@@ -101,7 +125,8 @@ bot.command("ping", async (ctx) => {
 bot.command("stats", async (ctx) => {
   // repo status
   const repo = await getRepoDetails("TeamUltroid/Ultroid");
-  const message = `Stars: ${repo.stargazers_count}\nForks: ${repo.forks_count}\nWatchers: ${repo.watchers_count}\nOpen Issues: ${repo.open_issues_count}`;
+  const message =
+    `Stars: ${repo.stargazers_count}\nForks: ${repo.forks_count}\nWatchers: ${repo.watchers_count}\nOpen Issues: ${repo.open_issues_count}`;
   await ctx.reply(message);
 });
 
